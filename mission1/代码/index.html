@@ -1,0 +1,570 @@
+<!--
+效果截图见: https://img-blog.csdnimg.cn/58363af492f949999ddbbfa7e434819d.png
+          https://img-blog.csdnimg.cn/f3c41b8b3c44400a848126462b871edf.png
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') ||
+            CSS.supports('top: constant(a)'))
+        document.write(
+            '<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' +
+            (coverSupport ? ', viewport-fit=cover' : '') + '" />')
+    </script>
+    <title></title>
+</head>
+<body class="">
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#example-navbar-collapse">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img class="img-rounded" width="110" src="static/icon.png"/></a>
+        </div>
+        <div class="collapse navbar-collapse" id="example-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a id="professionNav" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        行业 <b class="caret"></b>
+                    </a>
+                    <ul id="professionSub" class="dropdown-menu navchanpin sub-nav subnav">
+                        <li><a href="#">银行行业解决方案</a></li>
+                        <li><a href="#">保险行业解决方案</a></li>
+                        <li><a href="#">证券行业解决方案</a></li>
+                        <li><a href="#">基金行业解决方案</a></li>
+                        <li><a href="#">期货行业解决方案</a></li>
+                        <li><a href="#">信托行业解决方案</a></li>
+                        <li><a href="#">财务公司解决方案</a></li>
+                        <li><a href="#">租赁行业解决方案</a></li>
+                        <li><a href="#">保险中介服务</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" id="productNav" class="dropdown-toggle active" data-toggle="dropdown">
+                        产品 <b class="caret"></b>
+                    </a>
+                    <ul id="productSub" class="dropdown-menu navchanpin sub-nav subnav">
+                        <li><a href="#">税务管理</a></li>
+                        <li><a href="#">保险行业解决方案</a></li>
+                        <li><a href="#">交易级总账</a></li>
+                        <li><a href="#">管理会计</a></li>
+                        <li><a href="#">资产负债管理</a></li>
+                        <li><a href="#">共享服务</a></li>
+                        <li><a href="#">人力资源</a></li>
+                        <li><a href="#">定价管理</a></li>
+                        <li><a href="#">资本管理</a></li>
+                        <li><a href="#">租赁系统</a></li>
+                        <li><a href="#">养老金融</a></li>
+                        <li><a href="#">智能营销</a></li>
+                        <li><a href="#">链融云</a></li>
+                        <li><a href="#">移动平台及应用</a></li>
+                        <li><a href="#">大数据平台及服务</a></li>
+                        <li><a href="#">交易银行生态平台</a></li>
+                        <li><a href="#">支持服务</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">支持服务</a></li>
+                <li><a href="#">金融生态</a></li>
+                <li class="dropdown">
+                    <a id="exampleNav" href="#" class="dropdown-toggle navchanpin " data-toggle="dropdown">
+                        成功案例 <b class="caret"></b>
+                    </a>
+                    <ul id="exampleSub" class="dropdown-menu navchanpin sub-nav subnav">
+                        <li><a href="#">银行行业</a></li>
+                        <li><a href="#">证券行业</a></li>
+                        <li><a href="#">期货行业</a></li>
+                        <li><a href="#">基金行业</a></li>
+                        <li><a href="#">保险行业</a></li>
+                        <li><a href="#">信托行业</a></li>
+                        <li><a href="#">租赁行业</a></li>
+                        <li><a href="#">养老金</a></li>
+                        <li><a href="#">人力资源</a></li>
+                        <li><a href="#">投资理财</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="#">关于我们</a></li>
+                <li><a>用友集团</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+
+</div>
+
+<div id="app"></div>
+<script type="module" src="/main.js"></script>
+<img class="img-responsive" src="http://www.yonyoufintech.com/Public/version1/images/bannerchanpin.jpg">
+<div class="container">
+    <div class="h60"></div>
+    <h1 class="text-center">交易银行生态平台</h1>
+    <div class="h20"></div>
+    <div class="fox-text-default">
+        <p>通过为企业提供基于互联网的应用服务和第三方增值服务，如财务、报销、商旅服务、报税服务、代帐服务、电子发票、
+            供应链管理、HR、薪资管理、进销存管理、采购、分销、订货管理，并在这些服务中无缝的接入金融服务，如结算、存款、贷款、
+            保理、供应链金融、票据等业务，将金融服务植入企业的日常业务场景中，这样企业的业务场景和企业应用场景就成为金融服务的入口。</p>
+    </div>
+    <div class="h70"></div>
+</div>
+<div class="bg-gray">
+    <div class="h50"></div>
+    <div class="container ishengtai">
+        <h1 class="text-center">交易银行生态平台服务分类</h1>
+        <div class="h20"></div>
+        <div class="col-md-6 img-responsive"><img src="http://www.yonyoufintech.com/images/pic95.jpg" width="100%">
+        </div>
+        <div class="col-md-6 img-responsive"><img src="http://www.yonyoufintech.com/images/pic96.jpg" width="100%">
+        </div>
+    </div>
+    <div class="h50"></div>
+</div>
+<div class="container ichangjing">
+    <h1 class="text-center">服务场景</h1>
+    <h2 class="text-center redline">金融科技帮助金融服务植入客户业务场景</h2>
+    <div class="h20"></div>
+    <div class="row">
+        <div class="col-md-6 container">
+            <div class="profession">
+                <img src="	http://www.yonyoufintech.com/images/icon55.png">
+                <h4>金融服务</h4>
+                <div class="info">
+                    大中型企业供应链场景<br>
+                    大中型企业财务共享场景<br>
+                    大中型企业人力资源共享场景
+                </div>
+                <div class="ilogo"><img src="http://www.yonyoufintech.com/images/icon57.jpg"></div>
+            </div>
+        </div>
+        <div class="col-md-6 container">
+            <div class="profession">
+                <img src="http://www.yonyoufintech.com/images/icon56.png">
+                <h4>金融科技</h4>
+                <div class="info">
+                    小微企业应用场景<br>
+                    小微企业生意管理场景<br>
+                    小微企业代帐、报税场景
+                </div>
+                <div class="ilogo"><img src="http://www.yonyoufintech.com/images/icon58.jpg"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bg-gray">
+    <div class="container">
+        <div class="h60"></div>
+        <h2 class="text-center redline">针对大中型企业财务共享及商旅服务的金融服务植入</h2>
+        <div class="h20"></div>
+        <div><img src="	http://www.yonyoufintech.com/images/pic97.jpg" class="img-responsive center-block"></div>
+        <div class="h70"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="h60"></div>
+    <h2 class="text-center redline">针对大中型企业供应链场景的金融服务植入</h2>
+    <div class="h20"></div>
+    <div><img src="http://www.yonyoufintech.com/images/pic98.jpg" class="img-responsive center-block"></div>
+    <div class="h70"></div>
+</div>
+
+<div class="bg-gray">
+    <div class="container">
+        <div class="h60"></div>
+        <h2 class="text-center redline">针对小微企业应用场景的金融服务植入</h2>
+        <h4 class="fox-red text-center">小企业服务云平台（SAAS应用集合）</h4>
+        <div class="h20"></div>
+        <div><img src="http://www.yonyoufintech.com/images/pic99.jpg" class="img-responsive center-block"></div>
+        <div class="h100"></div>
+    </div>
+</div>
+<div class="footer">
+    <div class="h50"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="contact">
+                    <div class="ct1">
+                        <div>
+                            <img src="http://www.yonyoufintech.com/Public/version2/images/iconaixin.png">
+                        </div>
+                        <div>
+                            服务热线：4001 630 588<br>
+                            伙伴咨询：yinhui3@yonyou.com
+                        </div>
+                    </div>
+                </div>
+                <div class="contact">
+                    <div class="ct2">
+                        总机：010-62432000<br>
+                        传真：010-62432000<br>
+                        邮编：100094<br>
+                        地址：北京市海淀区北清路68号用友产业园东区19楼C座
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                <div class="gongzhonghao">
+                    <div style="top: 100px" class="gzh3"><img
+                            src="http://www.yonyoufintech.com/Public/version3/images/gzh.gif" width="150"
+                            alt=""></div>
+                    <div class="gzh4">扫一扫，关注用友金融</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="h50"></div>
+</div>
+
+<div class="copyright">
+    <div class="container">
+        <div class="dflex">
+            <div>京ICP备13042244号 京公网安备 11010802020647号</div>
+            <div>用友金融信息技术股份有限公司 Yonyou Fintech Information Technology Co., Ltd.</div>
+        </div>
+    </div>
+</div>
+
+<div class="rightcontact">
+    <ul class="rcicon">
+        <li id="rcicon1" class="rcicon1" data-toggle="tooltip" data-placement="top" title=""
+            data-original-title="马上拨打咨询电话"></li>
+        <li><span id="backup" class="backup"></span></li>
+    </ul>
+    <ul class="rccon">
+        <li>
+            <div class="rccon1"><img id="rccon" hidden="hidden"
+                                     src="http://www.yonyoufintech.com/Public/version1/images/lxfs.png" alt=""></div>
+        </li>
+    </ul>
+</div>
+</body>
+
+
+<style>
+    .row {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    .ichangjing {
+        text-align: center;
+
+        padding-top: 30px;
+        padding-bottom: 30px;
+        border: 1px solid #e5e5e5;
+        border-top: none;
+    }
+
+    .ichangjing:first-child {
+        border-top: 1px solid #e5e5e5 !important;
+    }
+
+    .ichangjing .info {
+        margin: 10px 0;
+    }
+
+    .bg-gray {
+        background: #f7f7f7;
+    }
+
+    .sibuqu h2, h2.redline {
+        position: relative;
+        margin-top: 0px;
+        margin-bottom: 40px;
+    }
+
+    .h20 {
+        height: 20px;
+    }
+
+    .h50 {
+        height: 50px;
+    }
+
+    .h60 {
+        height: 60px;
+    }
+
+    .h70 {
+        height: 70px;
+    }
+
+    .h100 {
+        height: 100px;
+    }
+
+    .navchanpin {
+        width: 600px;
+    }
+
+    .navchanpin {
+        width: 600px;
+    }
+
+    .subnav {
+        position: absolute;
+        top: 45px;
+        left: -170px;
+        padding: 20px 0px 20px 15px;
+        background: #fbfbfb;
+        border: 1px solid #c9caca;
+        box-shadow: 1px 6px 9px #c9caca;
+        display: none;
+    }
+
+    .gzh4 {
+        position: absolute;
+        color: cornsilk;
+    }
+
+    .footer {
+        background: url(http://www.yonyoufintech.com/Public/version2/images/footerbg.jpg) no-repeat center top;
+        background-size: cover;
+    }
+
+    .contact {
+        color: #ffffff;
+    }
+
+    .ct1 > div {
+        margin: 0 10px 15px 0;
+    }
+
+    .ct2 {
+        color: #ffffff;
+        font-size: 1.4rem;
+        line-height: 1.8;
+        opacity: .6;
+    }
+
+    .copyright {
+        padding: 10px 0;
+        background: #35363F;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #333;
+    }
+
+    .dflex {
+        display: flex;
+        justify-content: space-between;
+        color: #ffffff;
+        font-size: 12px;
+    }
+
+    .gongzhonghao {
+        position: relative;
+        top: 10px;
+    }
+
+    ul {
+        display: block;
+        list-style-type: disc;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 40px;
+    }
+
+    .navchanpin {
+        width: 600px;
+    }
+
+    .subnav {
+        position: absolute;
+        top: 45px;
+        left: -170px;
+        padding: 20px 0px 20px 15px;
+        background: #fbfbfb;
+        border: 1px solid #c9caca;
+        box-shadow: 1px 6px 9px #c9caca;
+        display: none;
+    }
+
+    ul, ol {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    ul ul {
+        list-style-type: circle;
+        margin-block-start: 0px;
+        margin-block-end: 0px;
+    }
+
+    ul {
+        display: block;
+        list-style-type: disc;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 40px;
+    }
+
+    .nav > ul > li {
+        position: relative;
+        display: inline-block;
+        padding: 0;
+        list-style: none;
+    }
+
+    li {
+        text-align: -webkit-match-parent;
+    }
+
+    .nav > ul {
+        padding: 0px;
+        text-align: center;
+    }
+
+    ul {
+        list-style-type: disc;
+    }
+
+    .nav {
+        margin-bottom: 0;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #333;
+        background-color: #fff;
+    }
+
+    .subnav > li {
+        margin: 5px 5px;
+        list-style: none;
+        float: left;
+        line-height: 35px;
+        border: 1px solid #dcdddd;
+        font-size: 1.4rem;
+        background: #ffffff;
+    }
+
+    .rccon {
+        position: absolute;
+        top: 0px;
+        right: 75px;
+        padding: 0px;
+    }
+
+    .rcicon .backup {
+        display: block;
+        width: 59px;
+        height: 34px;
+        border-radius: 5px;
+        font-size: 40px;
+        line-height: 50px;
+        text-align: center;
+        color: #ffffff;
+        background: url(http://www.yonyoufintech.com/Public/version2/images/rightcontact.svg) no-repeat 0 -120px;
+        background-size: 100% auto;
+        cursor: pointer;
+    }
+
+    .rightcontact {
+        position: fixed;
+        top: 25%;
+        right: 10px;
+        z-index: 99;
+    }
+
+    .rightcontact .rcicon > li {
+        margin-bottom: 5px;
+        list-style: none;
+    }
+
+    .rightcontact .rcicon1 {
+        width: 59px;
+        height: 120px;
+        border-radius: 5px;
+        background: url(http://www.yonyoufintech.com/Public/version2/images/rightcontact.svg) no-repeat 0 0;
+        background-size: 100% auto;
+        cursor: pointer;
+    }
+
+
+</style>
+<script type="text/javascript">
+    $(function () {
+        $("#professionNav").hover(function () {
+            $("#professionSub").show();
+        }, function () {
+
+        })
+        $("#professionSub").hover(function () {
+            $("#professionSub").show();
+
+        }, function () {
+            $("#professionSub").hide();
+        })
+        $("#productNav").hover(function () {
+            $("#productSub").show();
+        }, function () {
+
+        })
+        $("#productSub").hover(function () {
+            $("#productSub").show();
+
+        }, function () {
+            $("#productSub").hide();
+        })
+        $("#exampleNav").hover(function () {
+            $("#exampleSub").show();
+        }, function () {
+
+        })
+        $("#exampleSub").hover(function () {
+            $("#exampleSub").show();
+
+        }, function () {
+            $("#exampleSub").hide();
+        })
+        $(function () {
+            $("#backup").click(function () {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 500);
+                return false;
+            })
+        })
+        $("#rcicon1").click(
+            function () {
+                if ($('#rccon').is(':hidden')) {
+                    $('#rccon').show();
+                } else {
+                    $('#rccon').hide();
+                }
+            }
+        )
+    })
+</script>
+</html>
