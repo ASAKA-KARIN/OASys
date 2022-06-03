@@ -1,0 +1,6 @@
+attendceedit.ftl:
+<#--做的主要改动是通过判断attend对象的有无来确定请求是增加还是删除-->
+<#--若为增加 则请求saveAttend 且类型应该可选-->
+<#--若为修改 则请求attendcesave，且类型不可选-->
+AttendceController
+新增saveAttend方法	
