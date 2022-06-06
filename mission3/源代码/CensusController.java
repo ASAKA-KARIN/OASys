@@ -23,13 +23,12 @@ public class CensusController {
 
     @RequestMapping("/census")
     public String census(@RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime,
-                         Model model, HttpServletRequest request) {
+                        ,HttpServletRequest request) {
         startTime = startTime + " 0:00:00";
         //为了能查询出数据
-        startTime = "2017-1-1" + " 0:00:00";
+        //startTime = "2017-1-1" + " 0:00:00";
         endTime = endTime + " 23:59:59";
         List<Census> emps = censusService.getTop3EmpByDept(startTime, endTime);
-        model.addAttribute("emps", emps);
         request.setAttribute("emps", emps);
         request.setAttribute("url", "censusTable");
         request.setAttribute("test", "test");
