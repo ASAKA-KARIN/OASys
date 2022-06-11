@@ -1,10 +1,9 @@
 <#include "/common/commoncss.ftl">
 <#include "/common/modalTip.ftl"/>
-<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap-table/1.12.0/extensions/treegrid/bootstrap-table-treegrid.js">
-</script>
-<script src="https://cdn.bootcss.com/jquery-treegrid/0.2.0/js/jquery.treegrid.min.js"></script>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-treegrid/0.2.0/css/jquery.treegrid.min.css">
 <#--<script type="text/javascript" src="js/dept.js"></script>-->
 <style type="text/css">
     a {
@@ -35,9 +34,12 @@
             <!--盒子头-->
             <div class="box-header">
                 <h3 class="box-title">
-                    <a href="deptedit" class="label label-success" style="padding: 5px;">
+                    <a href="deptedit?flag=1" class="label label-success" style="padding: 5px;">
                         <span class="glyphicon glyphicon-plus"></span> 新增
                     </a>
+                    <#if err??>
+                        <span style="color:red;">${err}</span>
+                    </#if>
                 </h3>
                 <!-- <div class="box-tools">
                     <div class="input-group" style="width: 150px;">
@@ -53,86 +55,79 @@
             <!--盒子身体-->
             <div class="box-body no-padding">
                 <div class="table-responsive">
-                    <table class="table table-hover table-striped">
-                        <tr>
-                            <th scope="col">名称</th>
-                            <th scope="col">电话</th>
-                            <th scope="col">邮箱</th>
-                            <th scope="col">地址</th>
-                            <th scope="col">操作</th>
-                        </tr>
-                        <#--						<#list depts as dept>-->
-                        <#--							<tr>-->
-                        <#--								<td><span>${dept.deptName}</span></td>-->
-                        <#--								<td><span>${dept.deptTel}</span></td>-->
-                        <#--								<td><span>${dept.email}</span></td>-->
-                        <#--								<td><span>${dept.deptAddr}</span></td>-->
-                        <#--								<td>-->
-                        <#--									<a href="deptedit?dept=${dept.deptId}" class="label xiugai">-->
-                        <#--									<span class="glyphicon glyphicon-edit"></span> 修改</a> -->
-                        <#--									<a href="readdept?deptid=${dept.deptId}" class="label xiugai">-->
-                        <#--										<span class="glyphicon glyphicon-search"></span> 人事调动-->
-                        <#--									</a>-->
-                        <#--									<a href="readdept?deptid=${dept.deptId}" class="label shanchu"><span-->
-                        <#--										class="glyphicon glyphicon-remove"></span> 删除</a></td>-->
-                        <#--							</tr>-->
-                        <#--						</#list>-->
+                    <#--                    <table class="table table-hover table-striped">-->
+                    <#--                        <tr>-->
+                    <#--                            <th scope="col">名称</th>-->
+                    <#--                            <th scope="col">电话</th>-->
+                    <#--                            <th scope="col">邮箱</th>-->
+                    <#--                            <th scope="col">地址</th>-->
+                    <#--                            <th scope="col">操作</th>-->
+                    <#--                        </tr>-->
+                    <#--                        &lt;#&ndash;						<#list depts as dept>&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;							<tr>&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;								<td><span>${dept.deptName}</span></td>&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;								<td><span>${dept.deptTel}</span></td>&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;								<td><span>${dept.email}</span></td>&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;								<td><span>${dept.deptAddr}</span></td>&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;								<td>&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;									<a href="deptedit?dept=${dept.deptId}" class="label xiugai">&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;									<span class="glyphicon glyphicon-edit"></span> 修改</a> &ndash;&gt;-->
+                    <#--                        &lt;#&ndash;									<a href="readdept?deptid=${dept.deptId}" class="label xiugai">&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;										<span class="glyphicon glyphicon-search"></span> 人事调动&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;									</a>&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;									<a href="readdept?deptid=${dept.deptId}" class="label shanchu"><span&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;										class="glyphicon glyphicon-remove"></span> 删除</a></td>&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;							</tr>&ndash;&gt;-->
+                    <#--                        &lt;#&ndash;						</#list>&ndash;&gt;-->
 
-                        <#list depts?keys as key>
-                            <tr class="parentDept">
-                                <td><span>${key.deptName}</span></td>
-                                <td><span>${key.deptTel}</span></td>
-                                <td><span>${key.email}</span></td>
-                                <td><span>${key.deptAddr}</span></td>
-                                <td>
-                                    <a href="deptedit?dept=${key.deptId}" class="label xiugai">
-                                        <span class="glyphicon glyphicon-edit"></span> 修改</a>
-                                    <a href="readdept?deptid=${key.deptId}" class="label xiugai">
-                                        <span class="glyphicon glyphicon-search"></span> 人事调动
-                                    </a>
-                                    <a href="readdept?deptid=${key.deptId}" class="label shanchu"><span
-                                                class="glyphicon glyphicon-remove"></span> 删除</a></td>
-                            </tr>
-                            <#list depts?api.get(key) as son>
-                                <tr style="color: cornflowerblue" class="sonDept" hidden="hidden">
-                                    <td><span>${son.deptName}</span></td>
-                                    <td><span>${son.deptTel}</span></td>
-                                    <td><span>${son.email}</span></td>
-                                    <td><span>${son.deptAddr}</span></td>
-                                    <td>
-                                        <a href="deptedit?dept=${son.deptId}" class="label xiugai">
-                                            <span class="glyphicon glyphicon-edit"></span> 修改</a>
-                                        <a href="readdept?deptid=${son.deptId}" class="label xiugai">
-                                            <span class="glyphicon glyphicon-search"></span> 人事调动
-                                        </a>
-                                        <a href="readdept?deptid=${son.deptId}" class="label shanchu"><span
-                                                    class="glyphicon glyphicon-remove"></span> 删除</a></td>
-                                </tr>
-                            </#list>
-                        </#list>
-                    </table>
+                    <#--                        <#list depts?keys as key>-->
+                    <#--                            <tr class="parentDept">-->
+                    <#--                                <td><span>${key.deptName}</span></td>-->
+                    <#--                                <td><span>${key.deptTel}</span></td>-->
+                    <#--                                <td><span>${key.email}</span></td>-->
+                    <#--                                <td><span>${key.deptAddr}</span></td>-->
+                    <#--                                <td>-->
+                    <#--                                    <a href="deptedit?dept=${key.deptId}" class="label xiugai">-->
+                    <#--                                        <span class="glyphicon glyphicon-edit"></span> 修改</a>-->
+                    <#--                                    <a href="readdept?deptid=${key.deptId}" class="label xiugai">-->
+                    <#--                                        <span class="glyphicon glyphicon-search"></span> 人事调动-->
+                    <#--                                    </a>-->
+                    <#--                                    <a href="readdept?deptid=${key.deptId}" class="label shanchu"><span-->
+                    <#--                                                class="glyphicon glyphicon-remove"></span> 删除</a></td>-->
+                    <#--                            </tr>-->
+                    <#--                            <#list depts?api.get(key) as son>-->
+                    <#--                                <tr style="color: cornflowerblue" class="sonDept" hidden="hidden">-->
+                    <#--                                    <td><span>${son.deptName}</span></td>-->
+                    <#--                                    <td><span>${son.deptTel}</span></td>-->
+                    <#--                                    <td><span>${son.email}</span></td>-->
+                    <#--                                    <td><span>${son.deptAddr}</span></td>-->
+                    <#--                                    <td>-->
+                    <#--                                        <a href="deptedit?dept=${son.deptId}" class="label xiugai">-->
+                    <#--                                            <span class="glyphicon glyphicon-edit"></span> 修改</a>-->
+                    <#--                                        <a href="readdept?deptid=${son.deptId}" class="label xiugai">-->
+                    <#--                                            <span class="glyphicon glyphicon-search"></span> 人事调动-->
+                    <#--                                        </a>-->
+                    <#--                                        <a href="readdept?deptid=${son.deptId}" class="label shanchu"><span-->
+                    <#--                                                    class="glyphicon glyphicon-remove"></span> 删除</a></td>-->
+                    <#--                                </tr>-->
+                    <#--                            </#list>-->
+                    <#--                        </#list>-->
+                    <#--                    </table>-->
                     <table id="table"></table>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.12.0/extensions/treegrid/bootstrap-table-treegrid.js"></script>
+<script src="https://cdn.bootcss.com/jquery-treegrid/0.2.0/js/jquery.treegrid.min.js"></script>
 <script type="text/javascript">
-    var datas;
+    var $table = $('#table');
     $(function () {
-        var $table = $('#table');
-        setTimeout(function () {
-            $.ajax({
-                url: 'deptmanageRe',
-                success: function (msg) {
-                    datas = msg;
-                    console.log(datas);
-                }
-            });
-        },1000)
         $table.bootstrapTable({
-            data: datas,
-            type: 'jsonp',
+            url: 'deptmanageRe',
             idField: 'deptId',
             parentIdField: 'parentId',
             search: true,
@@ -141,44 +136,81 @@
             singleSelect: true,
             columns: [
                 {
-                    filed: 'check', checkbox: true, formatter: function (value, row, index) {
+                    field: 'check', checkbox: true, formatter: function (value, row, index) {
                         if (row.check == true) {
                             return {checked: true};
                         }
                     }
                 },
-                {field: 'deptId', title: '名称'},
                 {field: 'deptName', title: '名称'},
                 {field: 'deptTel', title: '电话'},
                 {field: 'email', title: '邮箱'},
                 {field: 'deptAddr', title: '地址'},
-                {field: 'operate', title: '操作', align: 'center', formatter: 'formatOpera'},
+                {field: 'opera', title: '操作', align: 'center', formatter: 'formatOpera'},
             ],
-
             onResetView: function (data) {
-                //console.log('load');
                 $table.treegrid({
-                    initialState: 'collapsed', // 所有节点都折叠
-                    // initialState: 'expanded',// 所有节点都展开，默认展开
-                    treeColumn: 1,
-                    // expanderExpandedClass: 'glyphicon glyphicon-minus',  //图标样式
-                    // expanderCollapsedClass: 'glyphicon glyphicon-plus',
+                    initialState: 'collapsed',
+                    treeColumn: 0,
                     onChange: function () {
                         $table.bootstrapTable('resetWidth');
                     }
                 });
-            }
+                // $table.treegrid('getRootNodes').treegrid('expand');
+            },
+            // onCheck:function (row) {
+            //     var datas = $table.bootstrapTable('getData');
+            //     console.log(datas);
+            //     console.log(row);
+            //     selectChilds(datas,row,"deptId","parentId",true);
+            //     selectParentChecked(datas,row,"deptId","parentId");
+            //     $table.bootstrapTable('load',datas);
+            // },
+            // onUncheck:function (row) {
+            //     var datas = $table.bootstrapTable('getData');
+            //     console.log(datas);
+            //     console.log(row);
+            //     selectChilds(datas,row,"deptId","parentId",false);
+            //     $table.bootstrapTable('load',datas);
+            //
+            // }
         });
-
     });
 
     function formatOpera(value, row, index) {
         return [
 
-            '<a href="deptedit?flag=0&dept=' + row.deptId + '" class="label xiugai"> <span class="glyphicon glyphicon-edit"></span> 增加</a> ' +
-            '<a href="deptedit?flag=1&dept=' + row.deptId + '" class="label xiugai"> <span class="glyphicon glyphicon-edit"></span> 修改</a> ' +
+            '<a href="deptedit?flag=1&dept=' + row.deptId + '" class="label xiugai"> <span class="glyphicon glyphicon-edit"></span> 增加</a> ' +
+            '<a href="deptedit?flag=0&dept=' + row.deptId + '" class="label xiugai"> <span class="glyphicon glyphicon-edit"></span> 修改</a> ' +
             '<a href="readdept?deptid=' + row.deptId + '" class="label xiugai"> <span class="glyphicon glyphicon-search"></span> 人事调动 </a> ' +
             '<a href="readdept?deptid=' + row.deptId + '" class="label shanchu"><span class="glyphicon glyphicon-remove"></span> 删除</a></td>'
         ].join(' ');
+    }
+
+    /**
+     * 选中父项时，同时选中子项
+     * @param datas 所有的数据
+     * @param row 当前数据
+     * @param id id 字段名
+     * @param pid 父id字段名
+     */
+    function selectChilds(datas, row, id, pid, checked) {
+        for (var i in datas) {
+            if (datas[i][pid] == row[id]) {
+                datas[i].check = checked;
+                selectChilds(datas, datas[i], id, pid, checked);
+            }
+            ;
+        }
+    }
+
+    function selectParentChecked(datas, row, id, pid) {
+        for (var i in datas) {
+            if (datas[i][id] == row[pid]) {
+                datas[i].check = true;
+                selectParentChecked(datas, datas[i], id, pid);
+            }
+            ;
+        }
     }
 </script>

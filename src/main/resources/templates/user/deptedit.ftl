@@ -36,8 +36,8 @@ a:hover {
 		<div class="col-md-12">
 			<!--id="container"-->
 			<div class="bgc-w box">
-				<form action="deptedit" method="post" onsubmit="return check();">
-					<#if dept??>
+				<form action="deptEditRe" method="post" onsubmit="return check();">
+					<#if flag == 0>
 						<input type="hidden" name="xg" value="xg"/>	
 					<#else>
 						<input type="hidden" name="xg" value="add"/>				

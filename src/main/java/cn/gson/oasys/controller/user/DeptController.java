@@ -7,6 +7,7 @@ import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.entity.user.Dept;
 import cn.gson.oasys.model.entity.user.Position;
 import cn.gson.oasys.model.entity.user.User;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,10 +39,10 @@ public class DeptController {
     @ResponseBody
     @RequestMapping("deptmanageRe")
     public Object deptmanageRe(HttpServletResponse resp) {
-        resp.setContentType("application/json;charset=UTF-8");
-        resp.setHeader("Access-Control-Allow-Origin", "*");
+//       resp.setContentType("application/json;charset=UTF-8");
+//       resp.setHeader("Access-Control-Allow-Origin", "*");
         List<Dept> deps = (List<Dept>) deptdao.findAll();
-    	return deps;
+        return deps;
     }
 
     /**
@@ -64,6 +65,45 @@ public class DeptController {
         }));
         model.addAttribute("depts", deptMap);
         return "user/deptmanage";
+    }
+
+    @RequestMapping(value = "deptEditRe", method = RequestMethod.POST)
+    public String addDeptRe(@Valid Dept dept, @RequestParam("xg") String xg, Model model) {
+        Long id = dept.getDeptId();
+        Dept uDept = deptdao.findDeptByDid(id);
+        if (xg.equals("xg")) {
+            //更新
+           copyDept(dept,uDept);
+            deptdao.save(uDept);
+        } else if (xg.equals("add")) {
+            //添加
+            Dept dest = new Dept();
+            copyDept(dept,dest);
+            dest.setDeptId(null);
+            if (uDept != null) {
+                dest.setIsLeaf(0);
+                dest.setParentId(uDept.getDeptId());
+                if (uDept.getIsLeaf() == 0) {
+                    uDept.setIsLeaf(1);
+                    deptdao.save(uDept);
+                }
+                deptdao.save(dest);
+            } else {
+                dest.setIsLeaf(0);
+                dest.setParentId(0);
+                deptdao.save(dest);
+            }
+        }
+
+        return "/deptmanage";
+    }
+
+    private void copyDept(Dept src,Dept dest){
+        dest.setDeptName(src.getDeptName());
+        dest.setDeptFax(src.getDeptFax());
+        dest.setDeptTel(src.getDeptTel());
+        dest.setEmail(src.getEmail());
+        dest.setDeptAddr(src.getDeptAddr());
     }
 
     @RequestMapping(value = "deptedit", method = RequestMethod.POST)
@@ -96,11 +136,12 @@ public class DeptController {
     }
 
     @RequestMapping(value = "deptedit", method = RequestMethod.GET)
-    public String changedept(@RequestParam(value = "dept", required = false) Long deptId, Model model) {
+    public String changedept(@RequestParam("flag")int flag,@RequestParam(value = "dept", required = false) Long deptId, Model model) {
         if (deptId != null) {
             Dept dept = deptdao.findOne(deptId);
             model.addAttribute("dept", dept);
         }
+        model.addAttribute("flag",flag);
         return "user/deptedit";
     }
 
@@ -108,6 +149,10 @@ public class DeptController {
     public String readdept(@RequestParam(value = "deptid") Long deptId, Model model) {
 
         Dept dept = deptdao.findOne(deptId);
+        if(dept.getIsLeaf() != 0){
+            model.addAttribute("err","你不能删除含有子节点的父节点");
+            return "/deptmanage";
+        }
         User deptmanage = null;
         if (dept.getDeptmanager() != null) {
             deptmanage = udao.findOne(dept.getDeptmanager());
@@ -138,8 +183,8 @@ public class DeptController {
 
     }
 
-    @RequestMapping("deptandpositionchange")
-    public String deptandpositionchange(@RequestParam("positionid") Long positionid,
+    @RequestMapping("deptandestositionchange")
+    public String deptandestositionchange(@RequestParam("positionid") Long positionid,
                                         @RequestParam("changedeptid") Long changedeptid,
                                         @RequestParam("userid") Long userid,
                                         @RequestParam("deptid") Long deptid,
@@ -158,7 +203,15 @@ public class DeptController {
 
     @RequestMapping("deletdept")
     public String deletdept(@RequestParam("deletedeptid") Long deletedeptid) {
+
         Dept dept = deptdao.findOne(deletedeptid);
+        Dept parent = deptdao.findDeptByDid(dept.getParentId());
+        List<Dept> sons = deptdao.findByDeptId(parent.getDeptId());
+        //当子节点清零时，设置该父节点为叶子节点
+        if(sons.size() == 0){
+            parent.setIsLeaf(0);
+            deptdao.save(parent);
+        }
         List<Position> ps = pdao.findByDeptid(deletedeptid);
         for (Position position : ps) {
             System.out.println(position);
