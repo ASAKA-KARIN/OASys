@@ -663,6 +663,7 @@ public class MailController {
 			
 			if(!StringUtil.isEmpty(name)){
 				if(mservice.isContainChinese(mail.getInReceiver())){
+					//内部邮件 走这个逻辑
 					// 分割任务接收人
 					StringTokenizer st2 = new StringTokenizer(mail.getInReceiver(), ";");
 					while (st2.hasMoreElements()) {
@@ -673,6 +674,7 @@ public class MailController {
 						mrdao.save(mreciver);
 					}
 				}else{
+					//自定义邮件，走这个逻辑
 					if(mail.getInReceiver().contains(";")){
 						st = new StringTokenizer(mail.getInReceiver(), ";");
 					}else{
@@ -680,11 +682,13 @@ public class MailController {
 					}
 					
 						while (st.hasMoreElements()) {
+							//有附件
 							if(!StringUtil.isEmpty(file.getOriginalFilename())){
 								mservice.pushmail(number.getMailAccount(), number.getPassword(), st.nextToken(), number.getMailUserName(), mail.getMailTitle(),
 										mail.getContent(), attaid.getAttachmentPath(), attaid.getAttachmentName());
 							
 							}else{
+								//无附件
 								mservice.pushmail(number.getMailAccount(), number.getPassword(), st.nextToken(), number.getMailUserName(), mail.getMailTitle(),
 										mail.getContent(), null, null);
 							}

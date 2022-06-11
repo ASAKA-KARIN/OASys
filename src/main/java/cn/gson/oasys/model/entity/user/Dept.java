@@ -2,6 +2,7 @@ package cn.gson.oasys.model.entity.user;
 
 import java.util.Date;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,7 +41,12 @@ public class Dept {
 	private String deptAddr;	//部门地址
 	
 	private Long deptmanager;
-	
+	@Column(name = "is_leaf")
+	private int isLeaf;
+
+	@Nullable
+	@Column(name = "parent_id")
+	private Long parentId;
 //	@Column(name = "start_time")
 //	private Date startTime;		//部门上班时间
 	
@@ -113,7 +119,23 @@ public class Dept {
 				+ ", email=" + email + ", deptAddr=" + deptAddr + ", deptmanager=" + deptmanager + "]";
 	}
 
-	
+	public int getIsLeaf() {
+		return isLeaf;
+	}
+
+	public void setIsLeaf(int isLeaf) {
+		this.isLeaf = isLeaf;
+	}
+
+	public  long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(long parentId) {
+		this.parentId = parentId;
+	}
+
+
 //	public Date getStartTime() {
 //		return startTime;
 //	}

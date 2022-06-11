@@ -344,7 +344,7 @@ public class MailServices {
 		    
 		 // 网易163邮箱的 SMTP 服务器地址为: smtp.163.com
 		 //qq  smtp.qq.com
-		    String myEmailSMTPHost = "smtp.qq.com";
+		    String myEmailSMTPHost = "smtp.sina.com";
 		    
 		 // 收件人邮箱（替换为自己知道的有效邮箱）
 		  //  String receiveMailAccount = "1533047354@qq.com";
@@ -366,9 +366,10 @@ public class MailServices {
 	        props.setProperty("mail.smtp.socketFactory.port", smtpPort);
 	        
 	    	
-	     // 2. 根据配置创建会话对象, 用于和邮件服务器交互
+	     	// 2. 根据配置创建会话对象, 用于和邮件服务器交互
 	        Session session = Session.getDefaultInstance(props);
-	        session.setDebug(true);                                 // 设置为debug模式, 可以查看详细的发送 log
+	        session.setDebug(true);
+	        // 设置为debug模式, 可以查看详细的发送 log
 	        
 	        // 3. 创建一封邮件
 	        MimeMessage message;
@@ -390,9 +391,6 @@ public class MailServices {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-	        
-	       
-			
 		}
 	   public static MimeMessage createMimeMessage(Session session, String sendMail, String receiveMail,
 			   String name,String title,String content,String affix,String filename) throws Exception {

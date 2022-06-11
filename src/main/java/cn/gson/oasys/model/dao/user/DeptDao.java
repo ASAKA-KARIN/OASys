@@ -10,7 +10,8 @@ import cn.gson.oasys.model.entity.user.Dept;
 
 public interface DeptDao extends PagingAndSortingRepository<Dept, Long>{
 
-	List<Dept> findByDeptId(Long id);
+	@Query("select d from Dept d where d.parentId = :id")
+	List<Dept> findByDeptId(@Param("id") Long id);
 	
 	
 	@Query("select de.deptName from Dept de where de.deptId=:id")

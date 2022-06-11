@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width,initial-scale=1.0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>系统管理</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-treegrid/0.2.0/css/jquery.treegrid.min.css">
+</head>
+
+<body>
+<div class="container">
+    <h1>树形表格 ： Table Treegrid</h1>
+    <table id="table"></table>
+    <br/>
+    <a href="http://127.0.0.1:8088/deptmanageRe" id="test"></a>
+</div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.12.0/extensions/treegrid/bootstrap-table-treegrid.js">
+</script>
+<script src="https://cdn.bootcss.com/jquery-treegrid/0.2.0/js/jquery.treegrid.min.js"></script>
+<script type="text/javascript">
+    var $table = $('#table');
+    var datas = [{
+        "deptId": 1,
+        "deptName": "总经办",
+        "deptTel": "888888888",
+        "deptFax": null,
+        "email": "hq@fjhirg.com",
+        "deptAddr": "五楼",
+        "deptmanager": 3,
+        "isLeaf": 0,
+        "parentId": 2
+    }, {
+        "deptId": 2,
+        "deptName": "研发部",
+        "deptTel": "66666666",
+        "deptFax": null,
+        "email": "as@fwgh",
+        "deptAddr": "四楼",
+        "deptmanager": 4,
+        "isLeaf": 1,
+        "parentId": 0
+    }, {
+        "deptId": 3,
+        "deptName": "财务部",
+        "deptTel": "233333",
+        "deptFax": null,
+        "email": "153@qq.com",
+        "deptAddr": "三楼",
+        "deptmanager": 5,
+        "isLeaf": 0,
+        "parentId": 2
+    }, {
+        "deptId": 4,
+        "deptName": "市场部",
+        "deptTel": "666888",
+        "deptFax": null,
+        "email": "aaluoxiang@foxmail.com",
+        "deptAddr": "六楼",
+        "deptmanager": 6,
+        "isLeaf": 1,
+        "parentId": 0
+    }, {
+        "deptId": 5,
+        "deptName": "人事部",
+        "deptTel": "33332222",
+        "deptFax": null,
+        "email": "103@qq.com",
+        "deptAddr": "六楼",
+        "deptmanager": 7,
+        "isLeaf": 0,
+        "parentId": 4
+    }];
+
+    $(function () {
+
+        $.getJSON("http://127.0.0.1:8088/deptmanageRe?id=0&jsoncallback=?",function (json) {
+            alert(json);
+            $table.bootstrapTable({
+                data: datas,
+                type: 'jsonp',
+                idField: 'deptId',
+                parentIdField: 'parentId',
+                search: true,
+                treeShowField: 'deptName',
+                clickToSelect: true,
+                singleSelect: true,
+                columns: [
+                    {
+                        field: 'deptId',
+                        title: '名称'
+                    },
+                    {
+                        field: 'deptName',
+                        title: '名称'
+                    },
+                    {
+                        field: 'deptTel',
+                        title: '电话'
+                    },
+                    {
+                        field: 'email',
+                        title: '邮箱'
+                    },
+                    {
+                        field: 'deptAddr',
+                        title: '地址'
+                    },
+                    {
+                        field: 'operate',
+                        title: '操作',
+                        align: 'center',
+                        formatter: 'formatOpera'
+                    },
+                ],
+
+                onResetView: function (data) {
+                    //console.log('load');
+                    $table.treegrid({
+                        initialState: 'collapsed', // 所有节点都折叠
+                        // initialState: 'expanded',// 所有节点都展开，默认展开
+                        treeColumn: 1,
+                        // expanderExpandedClass: 'glyphicon glyphicon-minus',  //图标样式
+                        // expanderCollapsedClass: 'glyphicon glyphicon-plus',
+                        onChange: function () {
+                            $table.bootstrapTable('resetWidth');
+                        }
+                    });
+                    //只展开树形的第一级节点
+                    //$table.treegrid('getRootNodes').treegrid('expand');
+                },
+
+            });
+        });
+
+    })
+</script>

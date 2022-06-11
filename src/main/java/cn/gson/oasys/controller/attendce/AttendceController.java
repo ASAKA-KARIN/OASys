@@ -2,18 +2,20 @@ package cn.gson.oasys.controller.attendce;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -34,6 +36,7 @@ import cn.gson.oasys.model.entity.attendce.Attends;
 import cn.gson.oasys.model.entity.system.SystemStatusList;
 import cn.gson.oasys.model.entity.system.SystemTypeList;
 import cn.gson.oasys.model.entity.user.User;
+import sun.nio.cs.ext.MacArabic;
 
 @Controller
 @RequestMapping("/")
@@ -270,7 +273,21 @@ public class AttendceController {
 
 	}
 
-	
+	@RequestMapping("attendceadd")
+	public String add(@Param("aid") String aid, Model model,HttpServletRequest request, HttpSession session) {
+		Long userid = Long.valueOf(session.getAttribute("userId") + "");
+		if (aid == null) {
+			model.addAttribute("write", 0);
+		} else if (aid != null) {
+			long id = Long.valueOf(aid);
+			Attends attends = attenceDao.findOne(id);
+			model.addAttribute("write", 1);
+			model.addAttribute("attends", attends);
+		}
+		typestatus(request);
+		return "attendce/attendceedit";
+	}
+
 
 	@RequestMapping("attendceedit")
 	public String test4(@Param("aid") String aid, Model model,HttpServletRequest request, HttpSession session) {
@@ -299,6 +316,48 @@ public class AttendceController {
 	@RequestMapping(value = "attendcesave", method = RequestMethod.GET)
 	public void Datadf() {
 	}
+
+	/**
+	 * mission2 增加出勤记录
+	 * 需要填充的字段 ip remark time status_id type_id user_id hmtime week_ofday
+	 * @param model
+	 * @param session
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "saveAttend", method = RequestMethod.POST)
+	public String saveAttend(Model model, HttpSession session, HttpServletRequest request) {
+
+		//user
+		Long userid = Long.parseLong(session.getAttribute("userId") + "");
+		User user = uDao.findOne(userid);
+		//remark
+		String remark = request.getParameter("remark");
+		//statusId
+		String statusname=request.getParameter("status");
+		SystemStatusList statusList=  statusDao.findByStatusModelAndStatusName("aoa_attends_list", statusname);
+		Long statusId = statusList.getStatusId();
+		//typeId
+		String type = request.getParameter("type");
+		SystemTypeList typeList = typeDao.findByTypeModelAndTypeName("aoa_attends_list", type);
+		Long typeId = typeList.getTypeId();
+		// time hmtime week_ofday
+		Date now = new Date(System.currentTimeMillis());
+		SimpleDateFormat weekFormat = new SimpleDateFormat("EEEE");
+		SimpleDateFormat hmFormat = new SimpleDateFormat("HH:mm");
+		String hmTime = hmFormat.format(now);
+		String weekday = weekFormat.format(now);
+		//ip 用localhost:8088 访问 ip回被解析为ipv6格式
+		String ip = request.getRemoteAddr();
+
+		Attends attends= new Attends(typeId,statusId,now,hmTime,weekday,ip,user);
+		attends.setAttendsRemark(remark);
+		attenceDao.save(attends);
+		return "redirect:/attendceatt";
+	}
+
+
+
 
 	// 修改保存
 	@RequestMapping(value = "attendcesave", method = RequestMethod.POST)
@@ -376,19 +435,21 @@ public class AttendceController {
 			String status, String time, String icon, Model model) {
 		setSomething(baseKey, type, status, time, icon, model);
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
+		Pageable pageable = new PageRequest(page,10);
+		Page<Attends> page1 = attenceDao.findByUserOrderByAttendsTimeAsc(userId, pageable);
 		List<Long> ids = new ArrayList<>();
-		List<User> users = uDao.findByFatherId(userId);
-		for (User user : users) {
-			ids.add(user.getUserId());
-		}
-		if (ids.size() == 0) {
-			ids.add(0L);
-		}
-		User user = uDao.findOne(userId);
+//		List<User> users = uDao.findByFatherId(userId);
+//		for (User user : users) {
+//			ids.add(user.getUserId());
+//		}
+//		if (ids.size() == 0) {
+//			ids.add(0L);
+//		}
+//		User user = uDao.findOne(userId);
 		typestatus(request);
-		Page<Attends> page2 = attendceService.paging(page, baseKey, ids,type, status, time);
-		request.setAttribute("alist", page2.getContent());
-		request.setAttribute("page", page2);
+		//Page<Attends> page2 = attendceService.paging(page, baseKey, ids,type, status, time);
+		request.setAttribute("alist", page1.getContent());
+		request.setAttribute("page", page1);
 		request.setAttribute("url", "attendcetable");
 	}
 	
