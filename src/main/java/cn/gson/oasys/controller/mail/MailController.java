@@ -9,9 +9,11 @@ import java.util.Objects;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -878,5 +881,24 @@ public class MailController {
 		
 		return "mail/mailbody";
 		
+	}
+	@PostMapping("pwdEdit")
+	public String pwdEdit(HttpServletRequest req, HttpServletResponse resp,Model model){
+		String username = req.getParameter("username");
+		if(username.equals("") || username == null){
+			model.addAttribute("errormess", "账号或密码错误!");
+			return "/login";
+		}
+		User byUserName = udao.findByUserName(username);
+		byUserName.setPassword(req.getParameter("password"));
+		//先锁定用户 待用户在邮箱里确认后再解锁
+		byUserName.setIsLock(1);
+		udao.save(byUserName);
+		//假设14是系统管理员的账号
+		Mailnumber number = mndao.findOne(14L);
+		String content = "尊敬的"+username+"您好"+"您正在进行修改密码的操作，请<a href="+req.getRequestURL().toString()+"/activate?userId="+byUserName.getUserId()+">点击以下连接</a>来确认操作";
+		mservice.pushmail(number.getMailAccount(), number.getPassword(), byUserName.getEamil(), number.getMailUserName(), "OA系统 修改密码",
+				content, null, null);
+		return "/temp";
 	}
 }

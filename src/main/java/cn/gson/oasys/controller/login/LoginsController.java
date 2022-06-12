@@ -11,10 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.gson.oasys.services.mail.MailServices;
+import org.apache.poi.util.StringUtil;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -25,7 +29,7 @@ import cn.gson.oasys.services.user.UserLongRecordService;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;
 import eu.bitwalker.useragentutils.Version;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -36,7 +40,8 @@ public class LoginsController {
 	private UserDao uDao;
 	@Autowired
 	UserLongRecordService ulService;
-	
+	@Autowired
+	MailServices mailServices;
 	public static final String CAPTCHA_KEY = "session_captcha";
 
 	private Random rnd = new Random();
@@ -144,6 +149,12 @@ public class LoginsController {
 		// 将验证码存储在session以便登录时校验
 		session.setAttribute(CAPTCHA_KEY, verifyCode.toLowerCase());
 	}
-	
 
+	@RequestMapping("/pwdEdit/activate")
+	public String activate(@RequestParam("userId")long userId){
+		User one = uDao.getOne(userId);
+		one.setIsLock(0);
+		uDao.save(one);
+		return "redirect:/index";
+	}
 }
