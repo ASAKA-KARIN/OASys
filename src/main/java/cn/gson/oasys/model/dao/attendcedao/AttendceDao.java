@@ -130,6 +130,7 @@ Page<Attends> findonemohu(String baseKey,long userid,Pageable pa);
 	  //通过时间升序排序
 	  	    @Query("from Attends a where a.user.userId=?1  ORDER BY a.attendsTime ASC ")
 	  			Page<Attends> findByUserOrderByAttendsTimeAsc(long userid,Pageable pa);
-	
+			@Query("from Attends a WHERE a.attendsTime >= ?1 and a.attendsTime <= ?2")
+	  	    List<Attends> findByDate(Date startTime,Date endTime);
 
-} 
+}

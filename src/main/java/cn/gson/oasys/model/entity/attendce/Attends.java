@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import cn.gson.oasys.model.entity.user.User;
+import com.alibaba.excel.annotation.ExcelIgnore;
+import com.alibaba.excel.annotation.ExcelProperty;
 
 /**
 
@@ -28,35 +30,44 @@ public class Attends {
 	@Id
 	@Column(name="attends_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long attendsId; 
-	
+	@ExcelIgnore
+	private Long attendsId;
+
+	@ExcelIgnore
 	@Column(name="type_id")
 	private Long typeId; //类型id
-	
+
+	@ExcelIgnore
 	@Column(name="status_id")
 	private Long statusId; //状态id
-	
+
+	@ExcelProperty("考勤时间")
 	@Column(name="attends_time")
 	private Date attendsTime;   //考勤时间
-	
+
+	@ExcelProperty("考勤时分")
 	@Column(name="attend_hmtime")
 	private String attendHmtime;   //考勤时分
-	
+
+	@ExcelProperty("星期")
 	@Column(name="week_ofday")
 	private String weekOfday;   //星期几
-	
+
+	@ExcelProperty("登录IP")
 	@Column(name="attends_ip")
 	private String attendsIp;     //登陆ip
-	
+
+	@ExcelProperty("考勤备注")
 	@Column(name="attends_remark")
 	private String attendsRemark;  //考勤备注
-	
+
+	@ExcelIgnore
 	@Column(name="holiday_start")//请假开始时间
 	private Date holidayStart;
-	
+	@ExcelIgnore
 	@Column(name="holiday_days")//请假开始时间
 	private Double holidayDays;
-	
+	@ExcelIgnore
 	@ManyToOne
 	@JoinColumn(name = "attends_user_id")
 	private User user;
