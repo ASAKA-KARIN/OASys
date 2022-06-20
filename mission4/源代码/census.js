@@ -49,5 +49,30 @@ $(function () {
             }
         )
     })
+    $("#dynamicBtn").click(function(){
+        $("#refresh").hide();
+        $("#census").show();
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = "/toDynamicTable?startTime=" + start + "&endTime=" + end;
+        $.ajax(
+            {
+                type: "post",
+                url: "/census",
+                data: {
+                    "startTime": start,
+                    "endTime": end
+                },
+                success: function (data) {
+                    $("#census").html(data);
+                    a.click();
+                },
+                error: function (data) {
+                    $("#refresh").show();
+
+                }
+            }
+        )
+    })
 
 })

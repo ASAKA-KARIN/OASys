@@ -54,6 +54,9 @@
                     <button id="excelBtn" type="button" class="btn btn-success  btn-sm"
                             style="top: -1px">导出Excel
                     </button>
+                    <button id="dynamicBtn" type="button" class="btn btn-success  btn-sm"
+                            style="top: -1px">自定义excel表头
+                    </button>
                 </div>
                 <div class="box-body">
                     <div id="refresh" class="thistable">
